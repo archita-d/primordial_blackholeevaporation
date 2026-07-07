@@ -7,7 +7,7 @@ sigma=5.670e-8
 M=float(input("Enter mass: "))
 
 r_s = 2 * G * M / c**2
-T = h * c**3 / 8 * 3.14159 * G * M * k
+T = h * c**3 / (8 * 3.14159 * G * M * k)
 A = 4 * 3.14159 * r_s**2
 P = sigma * A * T**4
 t_evap = 5120 * 3.14159 * G**2 * M**3 / (h * c**4)
