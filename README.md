@@ -2,7 +2,7 @@
 This repo models Hawking radiation and black hole evaporation over time 
 ## Files
 ### Code
-#### `formulacalculations`, `timestepmass_nonadaptive`, `massradiustempplots`, `microsecondmass`, `microsecondtemp``microsecondpower`
+#### `formulacalculations`, `timestepmass_nonadaptive`, `massradiustempplots`, `microsecondmass`, `microsecondtemp`,`microsecondpower`
 All of these files showcase core Hawking radiation formulas (radius, temperature, power) as well as fixed-timestep simulations of mass/temperature/power, at 1-second and microsecond resolution, mostly done for testing purposes. 
 
 #### `adaptivetemp_test`
@@ -25,5 +25,5 @@ M₀ = cube_root(3·C·t_life / c²) ≈ 1.73e11 kg
 Plots `mass_vs_time` for three regimes (1e8 kg, ~1.73e11 kg, 1e20 kg) over the universe's full age, showing why only the medium mass is evaporating now and as shown the smalll ones vanished almost instantly, large ones have barely lost mass.
 
 ### Plots
-#### 'mass_vs_time.png', 'massvradius.png', 'temperature_plot.png', 'mass_vs_time_micro_full.png', 'temperature_vs_time_micro_full.png'
+#### `mass_vs_time.png`, `massvradius.png`, `temperature_plot.png`, `mass_vs_time_micro_full.png`, `temperature_vs_time_micro_full.png`
 Plots of mass, radius, and temperature vs. mass or time for a 1e6 kg black hole, at both 1-second and microsecond resolution.
