@@ -23,7 +23,7 @@ t_life = M₀³ · c² / (3C)
 then we can rearrange for the mass that evaporates exactly today (age of universe ≈ 13.8 Gyr):
 M₀ = cube_root(3·C·t_life / c²) = 1.73e11 kg
 
-then we `mass_vs_time` for three regimes (1e8 kg, ~1.73e11 kg, 1e20 kg) over the universe's entire age, to show why only the medium mass is evaporating now and as shown the smalll ones vanished almost instantly, large ones have barely lost mass.
+then we plot `mass_vs_time` for three regimes (1e8 kg, 1.73e11 kg, 1e20 kg) over the universe's entire age, to show why only the medium mass is evaporating now and as shown the smalll ones vanished almost instantly, large ones have barely lost mass.
 
 ### Plots
 #### `mass_vs_time.png`, `massvradius.png`, `temperature_plot.png`, `mass_vs_time_micro_full.png`, `temperature_vs_time_micro_full.png`
