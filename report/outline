@@ -33,7 +33,7 @@
 % why this mass range matters, what detectors are searching for it ?? 
  
 \section{Background: Hawking Radiation}
-% give a quick overview of the history of hawking radiation and its importance
+% give a quick overview of the history of hawking radiation and its importance + all the formulas involved
  
 \subsection{Basic Quantities}
 % highlight the radius and temperature formulas specifically
@@ -57,7 +57,7 @@
  
 \subsection{Mass Evaporating Today}
 % solving for M0 given age of universe
-% i will probably reference the actual source somewhere here
+% i will probably reference the actual source/number somewhere here
 
 \section{Methods}
  
@@ -68,10 +68,11 @@
 % comparing simulation vs analytical formula to make sure they match
  
 \subsection{Photon Spectrum}
-% blackbody photon function, 4-step detection process
- 
+% blackbody photon function
+
 \section{Results}
 % show the figures, tables, final numbers
+% might talk about their significance either here or in discussion
  
 \section{Discussion}
 % caveats, greybody factors, next steps
@@ -82,7 +83,7 @@
 \begin{thebibliography}{9}
 \bibitem{veritas}
 S.~Archambault et al.\ (VERITAS Collaboration), \emph{Search for Primordial Black Hole Evaporation with VERITAS}, arXiv:1709.00307.
-% i have more to add but this is just a placeholder
+% i have more references to add but this is just a placeholder
 \end{thebibliography}
  
 \end{document}
