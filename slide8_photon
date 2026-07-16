@@ -68,7 +68,7 @@ def gamma_ray_array(M, energy_bin_edges, time_sample, D, A_detector):
 
 M_test = 1e11        # kg, placeholder
 E_test = 0.5         # MeV, placeholder
-E_low_test, E_high_test = 0.25, 0.75   # MeV, first energy range from slide 7
+E_low_test, E_high_test = 0.25, 0.75  
 time_sample_test = 1e-6   # 1 microsecond, per slide 7
 D_test = 1.0              # placeholder distance (cm)
 A_detector_test = 1.0     # placeholder detector area (cm^2)
