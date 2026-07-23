@@ -1,30 +1,126 @@
-# Primordial Black Hole Evaporation
-This repo models Hawking radiation and black hole evaporation over time 
-## Files
-### Code
-#### `formulacalculations`, `timestepmass_nonadaptive`, `massradiustempplots`, `microsecondmass`, `microsecondtemp`,`microsecondpower`
-All of these files showcase core Hawking radiation formulas (radius, temperature, power) as well as fixed-timestep simulations of mass/temperature/power, at 1-second and microsecond resolution, mostly done for testing purposes. 
+# primordial_blackholeevaporation
 
-#### `adaptivetemp_test`
-This file successfully simulates temperature and mass loss for a 1e6 kg black hole using an adaptive time step (`dt = 0.001 * M * c**2 / P`) instead of a fixed one, so dt is automatically shrinking as the black hole nears the end of its life instead of using the previous constant microsecond step.
+## What is this?
 
-The original microsecond simulation used a constant `dt = 1e-6 s` for every step, which wastes steps early on when it was not needed (the black hole is barely changing). I was able to recompute `dt` each step based on the current mass and power which allows the simulation take large steps early (when change is slow) and small steps near the end (when change is fast). 
+This repository models the evaporation of primordial black holes (PBHs)
+via Hawking radiation. It derives the mass of a PBH that would be
+completing its evaporation in the present epoch. It then  builds an adaptive
+numerical simulation of that evaporation, and predicts the photon
+spectrum a real gamma-ray detector would observe, validating the
+result against known blackbody physics (Stefan-Boltzmann law and the
+Wien-like peak location).
 
-#### `lifetime_comparison`
-this file derives a closed-form formula for black hole mass as a function of time directly from the Hawking radiation law, and then uses it to compare evaporation across a wide range of masses without simulating each one.
+There is also a paper (in report/) describing the physics and
+methods in full, and presenting the final results. (in progress)
 
-Since power `P ∝ 1/M²` (from combining area `∝ M²` and temperature⁴ `∝ 1/M⁴`) -  came from `formulacalculations`, and `dM/dt = -P/c²`, solving this rate equation gives:
-M(t) = cube_root(M₀³ - 3k·t)        where k = C/c², C = power(1.0) 
-note: C gives us all the constants from the power function (see `formulacalculations`)
+## Prerequisites
 
-and total lifetime:
-t_life = M₀³ · c² / (3C)
+You will need Python 3 and the following packages:
 
-then we can rearrange for the mass that evaporates exactly today (age of universe ≈ 13.8 Gyr):
-M₀ = cube_root(3·C·t_life / c²) = 1.73e11 kg
+pip install numpy matplotlib --break-system-packages
 
-then we plot `mass_vs_time` for three regimes (1e8 kg, 1.73e11 kg, 1e20 kg) over the universe's entire age, to show why only the medium mass is evaporating now and as shown the smalll ones vanished almost instantly, large ones have barely lost mass.
+(Omit --break-system-packages if you are using a virtual environment.)
 
-### Plots
-#### `mass_vs_time.png`, `massvradius.png`, `temperature_plot.png`, `mass_vs_time_micro_full.png`, `temperature_vs_time_micro_full.png`
-Plots of mass, radius, and temperature vs. mass or time for a 1e6 kg black hole, at both 1-second and microsecond resolution.
+To build the paper you will also need a LaTeX distribution, for example:
+
+sudo apt install texlive-latex-base texlive-latex-extra
+
+## How to run the code and reproduce all results
+
+All commands below should be run from the root of this repository.
+Each script is self-contained and can be run on its own.
+
+### 1. Core physics formulas
+File: code/formulacalculations.py
+
+This computes radius, temperature, and radiated power for a range of
+black hole masses, as a sanity check on the underlying physics. This files assits it understanding the core relationships between these important quantities. 
+
+python3 code/formulacalculations.py
+
+Expected output: printed radius, temperature, and power for several
+test masses.
+
+### 2. Deriving the crossover mass
+File: code/lifetimecomparison.py
+
+This derives the analytical mass-loss and lifetime formulas from
+first principles, solves for the mass of a PBH that would be
+completing its evaporation today, and produces a comparison plot
+across three mass regimes.
+
+python3 code/lifetimecomparison.py
+
+Expected output: prints the crossover mass (approximately 1.73e11 kg)
+and saves three_mass_regimes.png in plots/.
+
+### 3. Adaptive evaporation simulation
+File: code/adaptivesimulation.py
+
+This runs a full adaptive time-step simulation of the crossover-mass
+black hole from formation to complete evaporation, and cross-validates
+the simulated lifetime against the analytical formula from step 2.
+
+python3 code/adaptivesimulation.py
+
+Expected output: prints the simulated lifetime (should closely match
+the analytical value from step 2, within about 1%).
+
+### 4. Detector pipeline
+File: code/slide8_photon.py
+
+This builds the four-step process for converting the blackbody photon
+spectrum into a predicted 32-bin detector count array, for a given
+mass, distance, and detector area. It also produces a bar-chart
+visualization of the resulting spectrum.
+
+python3 code/slide8_photon.py
+
+Expected output: prints step-by-step intermediate results and the
+final 32-element count array, and saves gamma_ray_spectrum.png
+and photon_function_integration.png in plots/.
+
+### 5. Peak energy and time-step tracking
+File: code/dtpeakenergy.py
+
+This tracks the adaptive time step size and the black hole's peak
+emission energy as functions of time leading up to full evaporation.
+
+python3 code/dtpeakenergy.py
+
+Expected output: saves dt_vs_time.png and peak_energy_vs_time.png
+in plots/, and prints the raw dt and peak-energy values.
+
+### 6. Blackbody validation
+File: code/validating.py
+
+This is the key validation of the entire pipeline and is essential to our research.  It converts the
+32-bin detector counts into a count spectrum and an energy spectrum,
+checks that the energy spectrum peaks at the expected location
+(approximately 3 times kT), checks that the spectrum's slope below
+the peak matches the expected Rayleigh-Jeans value of 2.0, and
+checks that the total power recovered from the spectrum matches the
+independent Stefan-Boltzmann formula.
+
+python3 code/validating.py
+
+Expected output:
+- Energy spectrum peak at approximately 2.99 times kT
+- Slope below the peak of approximately 2.0
+- Recovered-power to Stefan-Boltzmann ratio of approximately 0.989
+- Saves step_counts_debug.png in plots/, showing the full
+  blackbody-shaped spectrum
+
+## Key results to expect
+
+- Crossover mass (evaporating in the present epoch): approximately 1.73e11 kg
+- Cross-validated lifetime (analytical vs. simulated): agreement within approximately 1%
+- Blackbody validation: peak at 2.99 x kT, slope of 2.0, power ratio of 0.989
+- Peak emission energy climbs from approximately 100 MeV to over 1e19 MeV over the final moments of evaporation
+
+## Known limitations
+
+This model treats the black hole as an ideal blackbody (Stefan-Boltzmann
+law) and does not include greybody factors or the emission of particle
+species other than photons (for example, electron-positron pairs, which
+become relevant below approximately 2e13 kg).
