@@ -1,14 +1,42 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from formulas import radius, temperature, power, c, time_remaining
 
-# constants - all SI units
+
+# constants 
 G = 6.67e-11          # gravitational constant, m^3/(kg s^2)
 c = 3e8                # speed of light, m/s
 hbar = 1.055e-34   # h bar, aka plancks constant
 k = 1.381e-23          # boltzmanns constant, J/K
 sigma = 5.670e-8       # stefan boltzmann constant
 
+def radius(M):
+    return 2 * G * M / c**2
+
+def temperature(M):
+    return hbar * c**3 / (8 * 3.14159 * G * M * k)
+
+def power(M):
+    # stefan boltzmann law which calclates total power radiated
+    r_s = radius(M)
+    A = 4 * 3.14159 * r_s**2
+    T = temperature(M)
+    return sigma * A * T**4
+
+def b_function(E_MeV, T): #aka black body photon function
+    E = E_MeV * MeV_to_joules
+    x = E / (k * T)
+    x = np.minimum(x, 700)
+    denominator = np.expm1(x)
+    denominator = np.where(denominator == 0, 1e-300, denominator)
+    return (2 * E**2) / (h**3 * c**2) / denominator
+
+def time_remaining(M):
+    C_const = power(1.0)
+    return (M**3 * c**2) / (3 * C_const)
+
+# this is the detector pipeline,  steps 1-4
+# takes the blackbody function and turns it into actual counts a
+# detector would see
 # a demo that tracks mass, temperature, and power together over time,
 # using the adaptive step to move through the evaporation,
 # and time_remaining (analytical, precision-safe) for the x-axis to give
